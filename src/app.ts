@@ -3,8 +3,12 @@ import cors from 'cors';
 import express, { Application } from 'express';
 import helmet from 'helmet';
 
+import { ContactRoutes, NotFoundRoutes } from './routes';
+
 class App {
   public app: Application;
+  private _contactRoutes: ContactRoutes = new ContactRoutes();
+  private _notFound: NotFoundRoutes = new NotFoundRoutes();
 
   constructor() {
     this.app = express();
@@ -21,10 +25,8 @@ class App {
   }
 
   private _setRoutes(): void {
-    // Move this into 'routes' folder
-    this.app.get('/', (req, res) => {
-      res.status(200).json({ message: 'Hello from Node.js!' });
-    });
+    this._contactRoutes.route(this.app);
+    this._notFound.route(this.app);
   }
 }
 
